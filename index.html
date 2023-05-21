@@ -1,73 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Bitfogav.com</title>
-		
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<style>
-		body, html {
-			height: 100%;
-			margin: 0;
-		}
+<head>
+  <title>Bitfogav.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
 
-		.bg {
-			background-image: url("codebacking.jpg");
-			height: 100%; 
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: cover;
-		}
-		
-		div.a {
-			text-align: center;
-			font-size: 40px;
-			background: #ccc;
-			font-family: "Lucida Console";
-		}
-		
-		div.b {
-			text-align: center;
-			font-size: 25px;
-			background: #ccc;
-			font-family: "Lucida Console";
-		}
-		
-		a:link, a:visited {
-			background-color: #f44336;
-			color: white;
-			padding: 15px 25px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-		}
+    .bg {
+      background-image: url("codebacking.jpg");
+      height: 100%; 
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
 
-		a:hover, a:active {
-			background-color: green;
-		}
-		
-		.games {
-			margin-top: 160px;
-			margin-left: 160px;
-		}
+    div.a {
+      text-align: center;
+      font-size: 40px;
+      background: #ccc;
+      font-family: "Lucida Console";
+    }
 
-	</style>
-    
-     </head>
-     <body>
-		<div class="a">
-			Welcome to Bitfogav.com</br>
-		</div>
-		
-		<div class="b">
-			Here I share code, my projects and my html games.
-		</div>
-		
-		<div class="bg">
-			<a class="games" href="gameList.html">Games</a>
-			<a class="coding" href="coding.html">Coding</a>
-			<a class="projects" href="projects.html">Projects</a>
-		</div>
-		
-     </body>
+    div.b {
+      text-align: center;
+      font-size: 25px;
+      background: #ccc;
+      font-family: "Lucida Console";
+    }
+
+    a:link, a:visited {
+      background-color: #f44336;
+      color: white;
+      padding: 15px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    a:hover, a:active {
+      background-color: green;
+    }
+
+    .games {
+      margin-top: 160px;
+      margin-left: 160px;
+    }
+
+    /* Adjustments for mobile devices */
+    @media only screen and (max-width: 768px) {
+      div.a {
+        font-size: 30px;
+      }
+
+      div.b {
+        font-size: 20px;
+      }
+
+      .games {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="a">
+    Welcome to Bitfogav.com</br>
+  </div>
+
+  <div class="b">
+    Here I share code, my projects and my HTML games.
+  </div>
+
+  <div class="bg">
+    <a class="games" href="gameList.html">Games</a>
+    <a class="coding" href="coding.html">Coding</a>
+    <a class="projects" href="projects.html">Projects</a>
+  </div>
+</body>
 </html>
