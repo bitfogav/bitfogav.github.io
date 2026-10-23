@@ -1,344 +1,249 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090d16">
-  <meta name="description" content="Coding and development projects by Bitfogav.">
-  <title>Coding | Bitfogav</title>
-
+  <meta name="description" content="DayZ Enforce Script code snippets and scripting reference by Bitfogav.">
+  <title>DayZ Code Library | Bitfogav</title>
   <style>
-    :root {
-      --bg: #090d16;
-      --panel: #121a29;
-      --cyan: #00e5ff;
-      --purple: #a36bff;
-      --text: #eef4ff;
-      --muted: #97a6bd;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      min-height: 100%;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background:
-        radial-gradient(ellipse at 15% 20%,
-          rgba(0,229,255,0.12), transparent 45%),
-        radial-gradient(ellipse at 85% 75%,
-          rgba(163,107,255,0.14), transparent 45%),
-        #090d16;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      opacity: 0.15;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.2) 1px,
-          transparent 1px),
-        linear-gradient(90deg,
-          rgba(0,229,255,0.2) 1px,
-          transparent 1px);
-      background-size: 60px 60px;
-      mask-image: linear-gradient(
-        to bottom, transparent, black 70%);
-      pointer-events: none;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 25px 7%;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .logo {
-      font-size: 23px;
-      font-weight: 800;
-      letter-spacing: 3px;
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .logo span {
-      color: var(--cyan);
-    }
-
-    .back {
-      color: var(--muted);
-      font-size: 13px;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .back:hover {
-      color: var(--cyan);
-    }
-
-    main {
-      width: 100%;
-      max-width: 1150px;
-      margin: auto;
-      padding: 100px 24px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .eyebrow {
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: clamp(48px, 8vw, 85px);
-      letter-spacing: -3px;
-      line-height: 1.1;
-      margin: 25px 0;
-    }
-
-    h1 span {
-      background: linear-gradient(
-        90deg, var(--cyan), var(--purple));
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .intro {
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.8;
-      max-width: 650px;
-    }
-
-    .coming-soon {
-      margin-top: 55px;
-      max-width: 650px;
-      padding: 35px;
-      border: 1px solid rgba(0,229,255,0.18);
-      border-radius: 16px;
-      background: rgba(18,26,41,0.85);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .coming-soon::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(
-        90deg, var(--cyan), var(--purple));
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: monospace;
-      font-size: 13px;
-      color: var(--cyan);
-      letter-spacing: 1px;
-    }
-
-    .status-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan);
-      animation: pulse 2s infinite;
-    }
-
-    .coming-soon h2 {
-      font-size: 28px;
-      margin: 25px 0 10px;
-    }
-
-    .coming-soon p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
-    }
-
-    .home-button {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 14px 25px;
-      border: 1px solid rgba(0,229,255,0.45);
-      border-radius: 8px;
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 13px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .home-button:hover {
-      background: rgba(0,229,255,0.1);
-      box-shadow: 0 0 25px rgba(0,229,255,0.12);
-    }
-
-    .home-button:focus-visible,
-    .back:focus-visible,
-    .logo:focus-visible {
-      outline: 2px solid var(--cyan);
-      outline-offset: 4px;
-    }
-
-    footer {
-      padding: 30px 7%;
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      border-top: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .content {
-      animation: fadeUp 0.8s ease both;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 1;
-        box-shadow: 0 0 12px var(--cyan);
-      }
-      50% {
-        opacity: 0.4;
-        box-shadow: 0 0 3px var(--cyan);
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 22px 6%;
-      }
-
-      .logo {
-        font-size: 19px;
-      }
-
-      main {
-        padding: 75px 22px;
-      }
-
-      h1 {
-        letter-spacing: -2px;
-      }
-
-      .coming-soon {
-        padding: 25px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
+    :root { --bg:#090d16; --panel:#121a29; --cyan:#00e5ff; --purple:#a36bff; --text:#eef4ff; --muted:#97a6bd; --line:rgba(0,229,255,.16); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:"Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--text); }
+    body::before { content:""; position:fixed; inset:0; z-index:-2; background:radial-gradient(ellipse at 15% 20%,rgba(0,229,255,.12),transparent 45%),radial-gradient(ellipse at 85% 75%,rgba(163,107,255,.14),transparent 45%),#090d16; }
+    body::after { content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.15; background-image:linear-gradient(rgba(0,229,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.2) 1px,transparent 1px); background-size:60px 60px; mask-image:linear-gradient(to bottom,transparent,black 70%); }
+    header { display:flex; align-items:center; justify-content:space-between; padding:25px 7%; border-bottom:1px solid rgba(255,255,255,.08); }
+    .logo { color:var(--text); font-size:23px; font-weight:800; letter-spacing:3px; text-decoration:none; }
+    .logo span { color:var(--cyan); }
+    .back-link { color:var(--muted); font-size:13px; text-decoration:none; }
+    .back-link:hover { color:var(--cyan); }
+    main { max-width:1160px; margin:0 auto; padding:70px 24px 95px; }
+    .eyebrow { color:var(--cyan); font:13px monospace; letter-spacing:3px; text-transform:uppercase; }
+    h1 { font-size:clamp(40px,7vw,70px); letter-spacing:-2px; margin:18px 0; }
+    h1 span { background:linear-gradient(90deg,var(--cyan),var(--purple)); background-clip:text; -webkit-background-clip:text; color:transparent; }
+    .intro { max-width:750px; color:var(--muted); line-height:1.8; margin:0 0 32px; }
+    .toolbar { display:flex; gap:14px; flex-wrap:wrap; margin:32px 0 16px; }
+    #search { width:100%; max-width:430px; padding:14px 16px; border:1px solid var(--line); border-radius:9px; background:rgba(18,26,41,.92); color:var(--text); font:14px "Segoe UI",Arial,sans-serif; }
+    #search::placeholder { color:var(--muted); }
+    .filters { display:flex; gap:9px; flex-wrap:wrap; margin:0 0 28px; }
+    .filter { padding:9px 15px; border:1px solid var(--line); border-radius:8px; background:rgba(18,26,41,.85); color:var(--muted); cursor:pointer; }
+    .filter:hover,.filter.active { border-color:var(--cyan); color:var(--cyan); background:rgba(0,229,255,.07); }
+    .results { color:var(--muted); font-size:13px; margin-bottom:18px; }
+    .library { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    .snippet { min-width:0; padding:23px; background:rgba(18,26,41,.87); border:1px solid var(--line); border-radius:14px; position:relative; overflow:hidden; }
+    .snippet::before { content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--cyan),var(--purple)); }
+    .snippet-head { display:flex; gap:12px; justify-content:space-between; align-items:flex-start; }
+    .snippet h2 { margin:0; font-size:19px; line-height:1.35; }
+    .tag { color:var(--cyan); font:11px monospace; border:1px solid var(--line); border-radius:6px; padding:5px 8px; white-space:nowrap; }
+    .description { min-height:42px; color:var(--muted); font-size:14px; line-height:1.6; }
+    .code-wrap { position:relative; }
+    pre { margin:0; padding:18px; min-height:150px; overflow:auto; border-radius:9px; background:#080c15; border:1px solid rgba(255,255,255,.06); color:#c7eaff; font:12px/1.65 Consolas,"Courier New",monospace; tab-size:4; }
+    .snippet-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; }
+    .language { color:var(--muted); font:12px monospace; }
+    .copy { cursor:pointer; border:1px solid rgba(0,229,255,.45); border-radius:8px; background:transparent; color:var(--cyan); padding:9px 15px; font:13px monospace; }
+    .copy:hover { background:rgba(0,229,255,.1); }
+    .notice { margin-top:28px; padding:19px 21px; border:1px solid var(--line); border-radius:10px; color:var(--muted); background:rgba(18,26,41,.7); font-size:13px; line-height:1.7; }
+    .notice strong { color:var(--text); }
+    #empty { display:none; color:var(--muted); padding:30px 0; }
+    footer { padding:30px 7%; text-align:center; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.07); }
+    button:focus-visible,input:focus-visible,a:focus-visible { outline:2px solid var(--cyan); outline-offset:3px; }
+    @media(max-width:800px) { .library { grid-template-columns:1fr; } main { padding:55px 20px 75px; } }
+    @media(max-width:500px) { header { padding:22px 6%; } .logo { font-size:19px; } .snippet { padding:17px; } .snippet h2 { font-size:17px; } pre { font-size:11px; } }
   </style>
 </head>
-
 <body>
-
   <header>
-    <a href="index.html" class="logo">
-      BITFO<span>GAV</span>
-    </a>
-
-    <a href="index.html" class="back">
-      ← Back to Home
-    </a>
+    <a class="logo" href="index.html">BITFO<span>GAV</span></a>
+    <a class="back-link" href="index.html">← Back to Home</a>
   </header>
-
   <main>
-    <div class="content">
-      <div class="eyebrow">// Development zone</div>
+    <div class="eyebrow">// Developer resources</div>
+    <h1>DayZ <span>Code Library.</span></h1>
+    <p class="intro">Useful Enforce Script examples for DayZ modding. Browse small, reusable code snippets, learn what they do, and copy what you need.</p>
 
-      <h1>
-        Code. Create.<br>
-        <span>Innovate.</span>
-      </h1>
-
-      <p class="intro">
-        Welcome to my coding space.
-        This is where I'll share development work,
-        coding experiments and useful resources.
-      </p>
-
-      <section class="coming-soon">
-        <div class="status">
-          <span class="status-dot"></span>
-          UNDER DEVELOPMENT
-        </div>
-
-        <h2>Something is coming.</h2>
-
-        <p>
-          This section is currently being built.
-          Check back later for coding projects,
-          experiments and development resources.
-        </p>
-
-        <a href="index.html" class="home-button">
-          ← RETURN HOME
-        </a>
-      </section>
+    <div class="toolbar"><input id="search" type="search" placeholder="Search snippets..." aria-label="Search code snippets"></div>
+    <div class="filters" aria-label="Filter by category">
+      <button class="filter active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" data-filter="player" aria-pressed="false">Player</button>
+      <button class="filter" data-filter="inventory" aria-pressed="false">Inventory</button>
+      <button class="filter" data-filter="vehicle" aria-pressed="false">Vehicle</button>
+      <button class="filter" data-filter="server" aria-pressed="false">Server</button>
+      <button class="filter" data-filter="utility" aria-pressed="false">Utility</button>
     </div>
+    <div class="results" id="results" aria-live="polite"></div>
+
+    <section class="library" id="library" aria-label="DayZ code examples">
+      <article class="snippet" data-category="player">
+        <div class="snippet-head"><h2>Get Player Steam64 ID</h2><span class="tag">PLAYER</span></div>
+        <p class="description">Read the Steam64 ID from a connected player's identity.</p>
+        <pre><code>PlayerIdentity identity = player.GetIdentity();
+
+if (identity)
+{
+    string steamID = identity.GetPlainId();
+    Print("Steam64 ID: " + steamID);
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script · Server</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="player">
+        <div class="snippet-head"><h2>Get Player Name</h2><span class="tag">PLAYER</span></div>
+        <p class="description">Retrieve the display name of a connected player.</p>
+        <pre><code>PlayerIdentity identity = player.GetIdentity();
+
+if (identity)
+{
+    string playerName = identity.GetName();
+    Print("Player: " + playerName);
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script · Server</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="player">
+        <div class="snippet-head"><h2>Get Player Position</h2><span class="tag">PLAYER</span></div>
+        <p class="description">Get a player's current world coordinates.</p>
+        <pre><code>if (player)
+{
+    vector position = player.GetPosition();
+    Print("Position: " + position.ToString());
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="player">
+        <div class="snippet-head"><h2>Check Player Health</h2><span class="tag">PLAYER</span></div>
+        <p class="description">Read the player's current health value.</p>
+        <pre><code>if (player)
+{
+    float health = player.GetHealth("", "Health");
+    Print("Health: " + health.ToString());
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="inventory">
+        <div class="snippet-head"><h2>Get Shoulder Attachment</h2><span class="tag">INVENTORY</span></div>
+        <p class="description">Read the item currently attached to the player’s shoulder slot.</p>
+        <pre><code>if (player)
+{
+    EntityAI item = player.GetInventory().FindAttachment(InventorySlots.GetSlotIdFromString("Shoulder"));
+
+    if (item)
+        Print("Shoulder item: " + item.GetType());
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="vehicle">
+        <div class="snippet-head"><h2>Check Player Vehicle</h2><span class="tag">VEHICLE</span></div>
+        <p class="description">Find the transport the player is currently commanding, if any.</p>
+        <pre><code>if (player)
+{
+    Transport vehicle = player.GetCommand_Vehicle() ? player.GetCommand_Vehicle().GetTransport() : null;
+
+    if (vehicle)
+        Print("Vehicle: " + vehicle.GetType());
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="utility">
+        <div class="snippet-head"><h2>Check Distance</h2><span class="tag">UTILITY</span></div>
+        <p class="description">Calculate the distance between two world positions.</p>
+        <pre><code>vector posA = "1000 0 1000";
+vector posB = "1020 0 1010";
+
+float distance = vector.Distance(posA, posB);
+Print("Distance: " + distance.ToString());</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="utility">
+        <div class="snippet-head"><h2>Check Radius</h2><span class="tag">UTILITY</span></div>
+        <p class="description">Check whether a position is inside a circular area using horizontal distance.</p>
+        <pre><code>vector center = "5000 0 5000";
+vector position = player.GetPosition();
+float radius = 100.0;
+
+float dx = position[0] - center[0];
+float dz = position[2] - center[2];
+
+if ((dx * dx + dz * dz) &lt;= radius * radius)
+    Print("Player is inside the zone");</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="server">
+        <div class="snippet-head"><h2>Run Server-Side Only</h2><span class="tag">SERVER</span></div>
+        <p class="description">Guard code so it only runs on the server instance.</p>
+        <pre><code>if (GetGame() &amp;&amp; GetGame().IsServer())
+{
+    Print("Running on the server");
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script · Server</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+
+      <article class="snippet" data-category="server">
+        <div class="snippet-head"><h2>Delayed Callback</h2><span class="tag">SERVER</span></div>
+        <p class="description">Run a function once after a two-second delay.</p>
+        <pre><code>void StartDelayedTask()
+{
+    GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(DoDelayedTask, 2000, false);
+}
+
+void DoDelayedTask()
+{
+    Print("Two seconds have passed");
+}</code></pre>
+        <div class="snippet-bottom"><span class="language">Enforce Script</span><button class="copy" type="button">Copy Code</button></div>
+      </article>
+    </section>
+    <p id="empty">No snippets match your search.</p>
+    <div class="notice"><strong>Using these snippets:</strong> Examples are intended for DayZ Enforce Script and assume variables such as <code>player</code> refer to a valid <code>PlayerBase</code> where used. Add them inside the appropriate script class/function and test on your DayZ version before using them in production. These are reference examples, not complete mods.</div>
   </main>
-
-  <footer>
-    © <span id="year"></span> Bitfogav.com
-    — Built with curiosity.
-  </footer>
-
+  <footer>© <span id="year"></span> Bitfogav.com — Built with curiosity.</footer>
   <script>
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const search = document.getElementById('search');
+    const snippets = Array.from(document.querySelectorAll('.snippet'));
+    const filters = Array.from(document.querySelectorAll('.filter'));
+    let selectedCategory = 'all';
+    function updateLibrary() {
+      const term = search.value.trim().toLowerCase();
+      let visible = 0;
+      snippets.forEach(card => {
+        const categoryMatch = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+        const textMatch = card.textContent.toLowerCase().includes(term);
+        const show = categoryMatch && textMatch;
+        card.hidden = !show;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('results').textContent = visible + ' of ' + snippets.length + ' snippets';
+      document.getElementById('empty').style.display = visible ? 'none' : 'block';
+    }
+    search.addEventListener('input', updateLibrary);
+    filters.forEach(button => button.addEventListener('click', () => {
+      selectedCategory = button.dataset.filter;
+      filters.forEach(item => {
+        const active = item === button;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      updateLibrary();
+    }));
+    document.querySelectorAll('.copy').forEach(button => button.addEventListener('click', async () => {
+      const code = button.closest('.snippet').querySelector('code').textContent;
+      try {
+        await navigator.clipboard.writeText(code);
+        button.textContent = 'Copied!';
+        setTimeout(() => button.textContent = 'Copy Code', 1500);
+      } catch (error) {
+        button.textContent = 'Copy failed';
+        setTimeout(() => button.textContent = 'Copy Code', 1500);
+      }
+    }));
+    updateLibrary();
   </script>
-
 </body>
 </html>
