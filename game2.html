@@ -1,169 +1,444 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Card Matching Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="Play the Card Matching Game on Bitfogav.com">
+  <title>Card Matching Game | Bitfogav</title>
+
   <style>
-  /* CSS styles for card layout, spacing, and rounding */
-  
-body {
-  display: flex; 					/* Use flexbox layout */
-  flex-direction: column; 			/* Arrange elements in a column */
-  align-items: center; 				/* Center align elements horizontally */
-  justify-content: center; 			/* Center align elements vertically */
-  min-height: 100vh; 				/* Set a minimum height of the body to fill the viewport */
-  font-family: Arial, sans-serif; 	/* Use Arial or a generic sans-serif font */
-}
+    :root {
+      --bg: #090d16;
+      --panel: #121a29;
+      --cyan: #00e5ff;
+      --purple: #a36bff;
+      --text: #eef4ff;
+      --muted: #97a6bd;
+    }
 
-h1 {
-  margin-top: 20px; /* Add top margin to the heading */
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.card-container {
-  display: grid; 							/* Use grid layout for the card container */
-  grid-template-columns: repeat(5, 1fr); 	/* Create 5 columns with equal width */
-  grid-gap: 10px; 							/* Add 10px gap between grid items */
-  max-width: 520px; 						/* Set a maximum width for the card container */
-  justify-items: center; 					/* Center align grid items horizontally */
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-.card {
-  position: relative; 		/* Set the position to enable the 3D effect */
-  width: 100px; 			/* Set the width of the card */
-  height: 150px; 			/* Set the height of the card */
-  perspective: 1000px; 		/* Set the perspective for 3D transformation */
-  cursor: pointer; 			/* Change the cursor to indicate interactivity */
-}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at 15% 20%,
+          rgba(0,229,255,0.12), transparent 45%),
+        radial-gradient(ellipse at 85% 75%,
+          rgba(163,107,255,0.14), transparent 45%),
+        #090d16;
+    }
 
-.front,
-.back {
-  position: absolute; 				/* Position the front and back sides absolutely within the card */
-  width: 100%; 						/* Set the width of the sides to cover the entire card */
-  height: 100%; 					/* Set the height of the sides to cover the entire card */
-  transition: transform 0.5s; 		/* Add a smooth transition effect for flipping */
-  backface-visibility: hidden; 		/* Hide the back side of the card */
-  border-radius: 5px; 				/* Add rounded corners to the sides */
-}
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.15;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.2) 1px,
+          transparent 1px),
+        linear-gradient(90deg,
+          rgba(0,229,255,0.2) 1px,
+          transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(
+        to bottom, transparent, black 70%);
+      pointer-events: none;
+    }
 
-.front {
-  transform: rotateY(180deg); 				/* Initially rotate the front side to hide it */
-  background-color: var(--card-color); 		/* Use the custom property for the card colour */
-  display: flex; 							/* Use flexbox layout for the front side */
-  justify-content: center; 					/* Center align content horizontally */
-  align-items: center; 						/* Center align content vertically */
-  font-size: 20px; 							/* Set the font size for the content on the front side */
-  color: black; 							/* Set the font colour on the front side when flipped */
-}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 7%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
 
-.flipped .front {
-  transform: rotateY(0deg); 	/* Rotate the front side to show it when the card is flipped */
-}
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--text);
+      text-decoration: none;
+    }
 
-.flipped .back {
-  transform: rotateY(-180deg); 	/* Rotate the back side to show it when the card is flipped */
-}
+    .logo span {
+      color: var(--cyan);
+    }
 
-.back {
-  background-color: #ccc; 		/* Set a placeholder colour for the back side */
-}
+    .back-link {
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
 
-#timer {
-  font-size: 24px; 					/* Set the font size for the timer */
-  font-family: Arial, sans-serif; 	/* Use Arial or a generic sans-serif font for the timer */
-  background-color: #f5f5f5; 		/* Set the background colour for the timer */
-  padding: 10px; 					/* Add padding to the timer element */
-  border-radius: 4px; 				/* Add rounded corners to the timer element */
-  margin-bottom: 20px; 				/* Add bottom margin to the timer element */
-  text-align: center; 				/* Center align the text within the timer element */
-}
+    .back-link:hover {
+      color: var(--cyan);
+    }
 
+    main {
+      width: 100%;
+      max-width: 1150px;
+      margin: auto;
+      padding: 65px 24px 90px;
+      flex: 1;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(40px, 7vw, 70px);
+      letter-spacing: -2px;
+      margin: 20px 0;
+    }
+
+    h1 span {
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 35px;
+    }
+
+    .game-panel {
+      width: fit-content;
+      max-width: 100%;
+      padding: 28px;
+      background: rgba(18,26,41,0.85);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+    }
+
+    /* CSS styles for card layout, spacing, and rounding */
+
+    .card-container {
+      display: grid;                           /* Use grid layout for the card container */
+      grid-template-columns: repeat(5, 1fr);   /* Create 5 columns with equal width */
+      grid-gap: 10px;                          /* Add 10px gap between grid items */
+      max-width: 520px;                        /* Set a maximum width for the card container */
+      justify-items: center;                   /* Center align grid items horizontally */
+    }
+
+    .card {
+      position: relative;                     /* Set the position to enable the 3D effect */
+      width: 100px;                            /* Set the width of the card */
+      height: 150px;                           /* Set the height of the card */
+      perspective: 1000px;                     /* Set the perspective for 3D transformation */
+      cursor: pointer;                         /* Change the cursor to indicate interactivity */
+    }
+
+    .front,
+    .back {
+      position: absolute;                     /* Position the front and back sides absolutely within the card */
+      width: 100%;                             /* Set the width of the sides to cover the entire card */
+      height: 100%;                            /* Set the height of the sides to cover the entire card */
+      transition: transform 0.5s;              /* Add a smooth transition effect for flipping */
+      backface-visibility: hidden;             /* Hide the back side of the card */
+      border-radius: 8px;                      /* Add rounded corners to the sides */
+    }
+
+    .front {
+      transform: rotateY(180deg);              /* Initially rotate the front side to hide it */
+      background-color: var(--card-color);     /* Use the custom property for the card colour */
+      display: flex;                           /* Use flexbox layout for the front side */
+      justify-content: center;                 /* Center align content horizontally */
+      align-items: center;                     /* Center align content vertically */
+      font-size: 17px;                         /* Set the font size for the content on the front side */
+      font-weight: bold;
+      color: black;                            /* Set the font colour on the front side when flipped */
+    }
+
+    .flipped .front {
+      transform: rotateY(0deg);                /* Rotate the front side to show it when the card is flipped */
+    }
+
+    .flipped .back {
+      transform: rotateY(-180deg);             /* Rotate the back side to show it when the card is flipped */
+    }
+
+    .back {
+      background:
+        linear-gradient(135deg,
+          rgba(0,229,255,0.08),
+          rgba(163,107,255,0.12)),
+        #101a2b;                              /* Set a placeholder colour for the back side */
+      border: 1px solid rgba(0,229,255,0.35);
+      box-shadow: inset 0 0 20px rgba(0,229,255,0.04);
+    }
+
+    .back::after {
+      content: "?";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: monospace;
+      font-size: 38px;
+      font-weight: bold;
+      color: var(--cyan);
+      text-shadow: 0 0 15px rgba(0,229,255,0.4);
+    }
+
+    .card:hover .back {
+      border-color: var(--cyan);
+      box-shadow: 0 0 18px rgba(0,229,255,0.15);
+    }
+
+    #timer {
+      font-size: 22px;                         /* Set the font size for the timer */
+      font-family: monospace;                  /* Use Arial or a generic sans-serif font for the timer */
+      background-color: rgba(9,13,22,0.9);    /* Set the background colour for the timer */
+      color: var(--cyan);
+      border: 1px solid rgba(0,229,255,0.18);
+      padding: 15px;                          /* Add padding to the timer element */
+      border-radius: 8px;                      /* Add rounded corners to the timer element */
+      margin-top: 25px;
+      text-align: center;                     /* Center align the text within the timer element */
+    }
+
+    footer {
+      padding: 30px 7%;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .content {
+      animation: fadeUp 0.8s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 650px) {
+      header {
+        padding: 22px 6%;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      main {
+        padding: 45px 15px;
+      }
+
+      .game-panel {
+        padding: 12px;
+      }
+
+      .card-container {
+        grid-gap: 5px;
+      }
+
+      .card {
+        width: min(17vw, 65px);
+        height: min(25vw, 95px);
+      }
+
+      .front {
+        font-size: 11px;
+      }
+
+      .back::after {
+        font-size: 25px;
+      }
+
+      #timer {
+        font-size: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .content {
+        animation: none;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <h1>Card Matching Game</h1>
-	
-  <div class="card-container">
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
+
+  <header>
+    <a href="index.html" class="logo">
+      BITFO<span>GAV</span>
+    </a>
+
+    <a href="gameList.html" class="back-link">
+      ← Back to Games
+    </a>
+  </header>
+
+  <main>
+    <div class="content">
+      <div class="eyebrow">// Memory challenge</div>
+
+      <h1>
+        Card <span>Matching Game.</span>
+      </h1>
+
+      <p class="intro">
+        Flip the cards, find all 10 matching pairs
+        and complete the challenge as fast as possible.
+      </p>
+
+      <div class="game-panel">
+
+        <div class="card-container">
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+          <div class="card" onclick="flipCard(this)">
+            <div class="front"></div>
+            <div class="back"></div>
+          </div>
+        </div>
+
+        <div id="timer">Time- 00:00:00</div>
+
+      </div>
     </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-    <div class="card" onclick="flipCard(this)">
-      <div class="front"></div>
-      <div class="back"></div>
-    </div>
-  </div>
-	<div id="timer">Time- 00:00:00</div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Bitfogav.com
+    — Built with curiosity.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+  <!-- ORIGINAL GAME JAVASCRIPT AND COMMENTS - UNCHANGED -->
   <script>
     var flippedCards = []; 			// Array to store flipped cards
     var startTime; 					// Variable to store the start time
@@ -233,7 +508,7 @@ h1 {
     function formatTime(time) {
       return time < 10 ? '0' + time : time; // Add leading zero for single-digit values
     }
-    
+
     // Function to shuffle the colour array
     function shuffleArray(array) {
       for (var i = array.length - 1; i > 0; i--) {
@@ -244,7 +519,7 @@ h1 {
       }
       return array;
     }
-    
+
     // Apply shuffled colour to each card
     var cards = document.querySelectorAll('.card');
     var colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'yellow', 'yellow', 'purple', 'purple', 'orange', 'orange', 'pink', 'pink', 'brown', 'brown', 'gray', 'gray', 'cyan', 'cyan'];
@@ -256,5 +531,6 @@ h1 {
       frontSide.innerText = shuffledColors[index];
     });
   </script>
+
 </body>
 </html>
