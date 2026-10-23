@@ -1,13 +1,344 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitfogav.com</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="Coding and development projects by Bitfogav.">
+  <title>Coding | Bitfogav</title>
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --panel: #121a29;
+      --cyan: #00e5ff;
+      --purple: #a36bff;
+      --text: #eef4ff;
+      --muted: #97a6bd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at 15% 20%,
+          rgba(0,229,255,0.12), transparent 45%),
+        radial-gradient(ellipse at 85% 75%,
+          rgba(163,107,255,0.14), transparent 45%),
+        #090d16;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.15;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.2) 1px,
+          transparent 1px),
+        linear-gradient(90deg,
+          rgba(0,229,255,0.2) 1px,
+          transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(
+        to bottom, transparent, black 70%);
+      pointer-events: none;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 7%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    .back {
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .back:hover {
+      color: var(--cyan);
+    }
+
+    main {
+      width: 100%;
+      max-width: 1150px;
+      margin: auto;
+      padding: 100px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 85px);
+      letter-spacing: -3px;
+      line-height: 1.1;
+      margin: 25px 0;
+    }
+
+    h1 span {
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+      max-width: 650px;
+    }
+
+    .coming-soon {
+      margin-top: 55px;
+      max-width: 650px;
+      padding: 35px;
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: 16px;
+      background: rgba(18,26,41,0.85);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coming-soon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--cyan);
+      letter-spacing: 1px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      animation: pulse 2s infinite;
+    }
+
+    .coming-soon h2 {
+      font-size: 28px;
+      margin: 25px 0 10px;
+    }
+
+    .coming-soon p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .home-button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 25px;
+      border: 1px solid rgba(0,229,255,0.45);
+      border-radius: 8px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .home-button:hover {
+      background: rgba(0,229,255,0.1);
+      box-shadow: 0 0 25px rgba(0,229,255,0.12);
+    }
+
+    .home-button:focus-visible,
+    .back:focus-visible,
+    .logo:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    footer {
+      padding: 30px 7%;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .content {
+      animation: fadeUp 0.8s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 12px var(--cyan);
+      }
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px var(--cyan);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 22px 6%;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      main {
+        padding: 75px 22px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .coming-soon {
+        padding: 25px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Page coming soon!.</h1>
-    
+
+  <header>
+    <a href="index.html" class="logo">
+      BITFO<span>GAV</span>
+    </a>
+
+    <a href="index.html" class="back">
+      ← Back to Home
+    </a>
+  </header>
+
+  <main>
+    <div class="content">
+      <div class="eyebrow">// Development zone</div>
+
+      <h1>
+        Code. Create.<br>
+        <span>Innovate.</span>
+      </h1>
+
+      <p class="intro">
+        Welcome to my coding space.
+        This is where I'll share development work,
+        coding experiments and useful resources.
+      </p>
+
+      <section class="coming-soon">
+        <div class="status">
+          <span class="status-dot"></span>
+          UNDER DEVELOPMENT
+        </div>
+
+        <h2>Something is coming.</h2>
+
+        <p>
+          This section is currently being built.
+          Check back later for coding projects,
+          experiments and development resources.
+        </p>
+
+        <a href="index.html" class="home-button">
+          ← RETURN HOME
+        </a>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Bitfogav.com
+    — Built with curiosity.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
 </body>
 </html>
