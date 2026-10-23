@@ -4,59 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090d16">
-  <meta name="description" content="BFG Bunker System — a custom DayZ bunker access and management project by Bitfogav.">
+  <meta name="description" content="Explore Bitfogav's DayZ modding, electronics and other development projects.">
   <title>Projects | Bitfogav</title>
   <style>
     :root { --bg:#090d16; --panel:#121a29; --cyan:#00e5ff; --purple:#a36bff; --text:#eef4ff; --muted:#97a6bd; }
     * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+    html { min-height:100%; }
     body { margin:0; min-height:100vh; display:flex; flex-direction:column; font-family:"Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
     body::before { content:""; position:fixed; inset:0; z-index:-2; background:radial-gradient(ellipse at 15% 20%,rgba(0,229,255,.12),transparent 45%),radial-gradient(ellipse at 85% 75%,rgba(163,107,255,.14),transparent 45%),#090d16; }
     body::after { content:""; position:fixed; inset:0; z-index:-1; opacity:.15; background-image:linear-gradient(rgba(0,229,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.2) 1px,transparent 1px); background-size:60px 60px; mask-image:linear-gradient(to bottom,transparent,black 70%); pointer-events:none; }
-    a { color:inherit; }
-    header { display:flex; justify-content:space-between; align-items:center; padding:25px 7%; border-bottom:1px solid rgba(255,255,255,.08); }
-    .logo { font-size:23px; font-weight:800; letter-spacing:3px; text-decoration:none; }
+    header { display:flex; align-items:center; justify-content:space-between; padding:25px 7%; border-bottom:1px solid rgba(255,255,255,.08); }
+    .logo { font-size:23px; font-weight:800; letter-spacing:3px; color:var(--text); text-decoration:none; }
     .logo span { color:var(--cyan); }
-    .back { color:var(--muted); font-size:13px; text-decoration:none; transition:color .2s; }
+    .back { color:var(--muted); font-size:13px; text-decoration:none; transition:color .3s; }
     .back:hover { color:var(--cyan); }
-    main { width:100%; max-width:1150px; margin:0 auto; padding:80px 24px 100px; flex:1; }
-    .eyebrow { color:var(--cyan); font:13px monospace; letter-spacing:3px; text-transform:uppercase; }
-    h1 { font-size:clamp(44px,8vw,82px); line-height:1.1; letter-spacing:-3px; margin:22px 0; }
+    main { width:100%; max-width:1150px; margin:0 auto; padding:90px 24px 110px; flex:1; }
+    .eyebrow { color:var(--cyan); font-family:monospace; font-size:13px; letter-spacing:3px; text-transform:uppercase; }
+    h1 { font-size:clamp(48px,8vw,85px); letter-spacing:-3px; line-height:1.1; margin:25px 0; }
     h1 span { background:linear-gradient(90deg,var(--cyan),var(--purple)); background-clip:text; -webkit-background-clip:text; color:transparent; }
-    .intro { color:var(--muted); font-size:17px; line-height:1.8; max-width:780px; }
-    .project { margin-top:45px; border:1px solid rgba(0,229,255,.18); border-radius:16px; background:rgba(18,26,41,.85); overflow:hidden; position:relative; }
-    .project::before { content:""; position:absolute; left:0; top:0; width:100%; height:2px; background:linear-gradient(90deg,var(--cyan),var(--purple)); }
-    .project-content { padding:36px; }
-    .project-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
-    .tag { color:var(--cyan); border:1px solid rgba(0,229,255,.3); background:rgba(0,229,255,.06); border-radius:30px; padding:7px 12px; font:12px monospace; }
-    h2 { font-size:clamp(29px,4vw,42px); letter-spacing:-1px; margin:22px 0 12px; }
-    .description { color:var(--muted); font-size:15px; line-height:1.85; max-width:850px; }
-    .section-title { margin:38px 0 18px; font-size:21px; }
-    .features { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-    .feature { border:1px solid rgba(255,255,255,.09); background:rgba(9,13,22,.55); border-radius:11px; padding:22px; }
-    .feature h4 { margin:0 0 9px; font-size:16px; color:var(--text); }
-    .feature p { margin:0; color:var(--muted); line-height:1.65; font-size:13px; }
-    .number { color:var(--cyan); font:12px monospace; margin-bottom:13px; }
-    .code-card { border:1px solid rgba(0,229,255,.16); background:#090e19; border-radius:11px; overflow:hidden; margin-top:16px; }
-    .code-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 17px; border-bottom:1px solid rgba(255,255,255,.08); }
-    .code-heading strong { font-size:13px; }
-    .code-heading span { color:var(--cyan); font:11px monospace; }
-    pre { margin:0; padding:20px; overflow-x:auto; color:#c9e8fa; font:13px/1.75 Consolas,"Courier New",monospace; tab-size:4; }
-    .code-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:12px 17px; border-top:1px solid rgba(255,255,255,.07); }
-    .code-footer small { color:var(--muted); font-size:11px; }
-    button { cursor:pointer; color:var(--cyan); background:transparent; border:1px solid rgba(0,229,255,.4); border-radius:7px; padding:9px 14px; font:12px monospace; transition:background .2s; }
-    button:hover { background:rgba(0,229,255,.1); }
-    .note { margin-top:24px; padding:18px 20px; border-left:2px solid var(--purple); background:rgba(163,107,255,.06); color:var(--muted); font-size:13px; line-height:1.7; }
-    .note strong { color:var(--text); }
-    .links { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
-    .button-link { display:inline-block; padding:13px 20px; border:1px solid rgba(0,229,255,.45); border-radius:8px; text-decoration:none; font:13px monospace; color:var(--cyan); transition:background .2s; }
-    .button-link:hover { background:rgba(0,229,255,.1); }
+    .intro { color:var(--muted); font-size:18px; line-height:1.8; max-width:700px; margin-bottom:55px; }
+    .section-heading { display:flex; align-items:baseline; gap:15px; margin:0 0 22px; }
+    .section-heading h2 { font-size:23px; margin:0; }
+    .section-heading small { font:12px monospace; color:var(--muted); }
+    .categories { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; margin-bottom:65px; }
+    .category { min-height:245px; position:relative; overflow:hidden; padding:32px; border:1px solid rgba(0,229,255,.16); border-radius:16px; background:rgba(18,26,41,.85); }
+    .category::before,.project::before { content:""; position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(90deg,var(--cyan),var(--purple)); }
+    .category.electronics::before { background:linear-gradient(90deg,var(--purple),var(--cyan)); }
+    .category-icon { display:inline-flex; align-items:center; justify-content:center; width:50px; height:50px; border:1px solid rgba(0,229,255,.25); border-radius:12px; background:rgba(0,229,255,.07); color:var(--cyan); font:700 24px monospace; }
+    .electronics .category-icon { border-color:rgba(163,107,255,.3); background:rgba(163,107,255,.08); color:var(--purple); }
+    .category h3 { font-size:25px; margin:20px 0 10px; }
+    .category p,.project p { color:var(--muted); line-height:1.7; font-size:15px; margin:0; }
+    .category .tag { display:inline-block; margin-top:22px; color:var(--cyan); font:12px monospace; letter-spacing:1px; }
+    .electronics .tag { color:var(--purple); }
+    .project { position:relative; overflow:hidden; display:grid; grid-template-columns:1fr auto; align-items:center; gap:24px; padding:32px; border:1px solid rgba(0,229,255,.18); border-radius:16px; background:rgba(18,26,41,.85); }
+    .project-label { font:12px monospace; letter-spacing:2px; color:var(--cyan); text-transform:uppercase; }
+    .project h3 { font-size:26px; margin:13px 0 10px; }
+    .project p { max-width:690px; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+    .chip { border:1px solid rgba(255,255,255,.12); border-radius:6px; padding:7px 10px; color:#c4d1e3; font:11px monospace; }
+    .project-link { display:inline-flex; align-items:center; justify-content:center; white-space:nowrap; padding:14px 19px; border:1px solid rgba(0,229,255,.45); border-radius:8px; color:var(--cyan); text-decoration:none; font:13px monospace; transition:background .25s,box-shadow .25s,transform .25s; }
+    .project-link:hover { background:rgba(0,229,255,.1); box-shadow:0 0 25px rgba(0,229,255,.12); transform:translateY(-2px); }
+    .footnote { margin-top:20px; color:var(--muted); font-size:13px; }
+    a:focus-visible { outline:2px solid var(--cyan); outline-offset:4px; }
     footer { padding:30px 7%; text-align:center; color:var(--muted); font-size:12px; border-top:1px solid rgba(255,255,255,.07); }
     .content { animation:fadeUp .8s ease both; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(25px); } to { opacity:1; transform:translateY(0); } }
-    :focus-visible { outline:2px solid var(--cyan); outline-offset:4px; }
-    @media(max-width:768px) { header { padding:22px 6%; } .logo { font-size:19px; } main { padding:55px 18px 70px; } .project-content { padding:22px; } .features { grid-template-columns:1fr; } h1 { letter-spacing:-2px; } pre { font-size:12px; padding:14px; } }
-    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+    @media(max-width:768px) { header { padding:22px 6%; } .logo { font-size:19px; } main { padding:65px 22px 80px; } h1 { letter-spacing:-2px; } .categories { grid-template-columns:1fr; } .project { grid-template-columns:1fr; } .project-link { justify-self:start; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
   </style>
 </head>
 <body>
@@ -66,83 +60,49 @@
   </header>
   <main>
     <div class="content">
-      <div class="eyebrow">// Development projects</div>
-      <h1>Built from <span>Code.</span></h1>
-      <p class="intro">A look behind some of my DayZ development projects — what they do, how they're designed and selected scripting examples. Full project source code is not published here.</p>
-      <article class="project">
-        <div class="project-content">
-          <div class="project-top">
-            <span class="eyebrow">01 / Featured project</span>
-            <span class="tag">DAYZ · ENFORCE SCRIPT</span>
-          </div>
-          <h2>BFG Bunker System</h2>
-          <p class="description">A custom bunker access system for DayZ, built around controlled entry points, keycard validation and configurable teleport locations. The system also includes administrative controls for managing bunker access without changing the original game doors.</p>
-          <h3 class="section-title">Core Features</h3>
-          <div class="features">
-            <div class="feature"><div class="number">01 / ACCESS</div><h4>Keycard Validation</h4><p>Checks a card's classname against configured access permissions before allowing entry.</p></div>
-            <div class="feature"><div class="number">02 / TRIGGERS</div><h4>Bunker Teleports</h4><p>Uses defined entry areas and destinations to move players into bunker sections.</p></div>
-            <div class="feature"><div class="number">03 / MANAGEMENT</div><h4>Admin Controls</h4><p>Provides controls to lock or unlock supported bunker access points.</p></div>
-            <div class="feature"><div class="number">04 / SAFETY</div><h4>Controlled Access</h4><p>Custom bunker panels can deny entry by default while vanilla doors remain unaffected.</p></div>
-          </div>
-          <h3 class="section-title">Selected Code Snippets</h3>
-          <p class="description">These short examples illustrate ideas used in DayZ scripting. They are intentionally standalone and do not reveal the full bunker implementation.</p>
-          <div class="code-card">
-            <div class="code-heading"><strong>Read an Item Classname</strong><span>ENFORCE SCRIPT</span></div>
-            <pre><code>// Example: get the classname of a keycard item
-if (card)
-{
-    string cardClass = card.GetType();
-    Print("Card classname: " + cardClass);
-}</code></pre>
-            <div class="code-footer"><small>Assumes card is a valid item reference.</small><button type="button" class="copy-btn">COPY CODE</button></div>
-          </div>
-          <div class="code-card">
-            <div class="code-heading"><strong>Check Player Distance</strong><span>ENFORCE SCRIPT</span></div>
-            <pre><code>// Example: check distance to a bunker entrance
-if (player)
-{
-    vector entrancePos = "12340 140 12670";
-    float distance = vector.Distance(player.GetPosition(), entrancePos);
+      <div class="eyebrow">// Things I've built</div>
+      <h1>My <span>Projects.</span></h1>
+      <p class="intro">From DayZ scripting and custom gameplay systems to electronics and hands-on experiments. Here's a collection of things I'm building, testing and learning along the way.</p>
 
-    if (distance &lt;= 3.0)
-    {
-        Print("Player is near the entrance");
-    }
-}</code></pre>
-            <div class="code-footer"><small>Example coordinates only; no teleport is performed.</small><button type="button" class="copy-btn">COPY CODE</button></div>
-          </div>
-          <div class="code-card">
-            <div class="code-heading"><strong>Server-Side Diagnostic Log</strong><span>ENFORCE SCRIPT</span></div>
-            <pre><code>// Example: log an access attempt on the server
-if (GetGame().IsServer() &amp;&amp; player &amp;&amp; player.GetIdentity())
-{
-    string steamID = player.GetIdentity().GetPlainId();
-    Print("[BFG Bunker] Access attempt: " + steamID);
-}</code></pre>
-            <div class="code-footer"><small>Demonstration logging only; not the complete access system.</small><button type="button" class="copy-btn">COPY CODE</button></div>
-          </div>
-          <div class="note"><strong>About the source code:</strong> The BFG Bunker System is a private project. These examples are educational excerpts and are not a downloadable or complete mod. Screenshots and additional development notes can be added here later.</div>
-          <div class="links"><a href="coding.html" class="button-link">EXPLORE CODE LIBRARY →</a><a href="index.html" class="button-link">← RETURN HOME</a></div>
+      <section aria-labelledby="areas-title">
+        <div class="section-heading"><h2 id="areas-title">Project Areas</h2><small>01 / EXPLORE</small></div>
+        <div class="categories">
+          <article class="category">
+            <div class="category-icon" aria-hidden="true">&lt;/&gt;</div>
+            <h3>DayZ Development</h3>
+            <p>Custom mods, bunker mechanics, player interactions, server-side systems and Enforce Script experiments.</p>
+            <span class="tag">GAME MODDING / SCRIPTING</span>
+          </article>
+          <article class="category electronics">
+            <div class="category-icon" aria-hidden="true">⚡</div>
+            <h3>Electronics</h3>
+            <p>Hardware projects, microcontrollers, circuits and practical builds. Projects will appear here as they're documented.</p>
+            <span class="tag">HARDWARE / EXPERIMENTS</span>
+          </article>
         </div>
-      </article>
+      </section>
+
+      <section aria-labelledby="featured-title">
+        <div class="section-heading"><h2 id="featured-title">Featured Projects</h2><small>02 / SHOWCASE</small></div>
+        <article class="project">
+          <div>
+            <div class="project-label">DayZ / Custom Mod</div>
+            <h3>BFG Bunker System</h3>
+            <p>A custom DayZ bunker access system with keycard validation, configurable teleport triggers and administrative controls. Explore the project, its features and selected code snippets.</p>
+            <div class="chips">
+              <span class="chip">Enforce Script</span>
+              <span class="chip">Keycard Access</span>
+              <span class="chip">Teleport Triggers</span>
+              <span class="chip">Admin Tools</span>
+            </div>
+          </div>
+          <a class="project-link" href="bfg-bunker.html">VIEW PROJECT →</a>
+        </article>
+        <p class="footnote">More DayZ and electronics projects will be added over time.</p>
+      </section>
     </div>
   </main>
   <footer>© <span id="year"></span> Bitfogav.com — Built with curiosity.</footer>
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-    document.querySelectorAll(".copy-btn").forEach(function(button) {
-      button.addEventListener("click", async function() {
-        var code = button.closest(".code-card").querySelector("code").textContent;
-        try {
-          await navigator.clipboard.writeText(code);
-          button.textContent = "COPIED!";
-          setTimeout(function() { button.textContent = "COPY CODE"; }, 1800);
-        } catch (error) {
-          button.textContent = "SELECT CODE TO COPY";
-          setTimeout(function() { button.textContent = "COPY CODE"; }, 2200);
-        }
-      });
-    });
-  </script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
