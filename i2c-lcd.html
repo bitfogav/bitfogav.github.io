@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="Bitfogav's Swordfish BASIC I2CLCD library for HD44780 LCDs using the PCF8574 I2C expander, with hardware photos and code examples.">
+  <title>I²C LCD Library | Bitfogav Projects</title>
+  <style>
+    :root{--bg:#090d16;--panel:#121a29;--cyan:#00e5ff;--purple:#a36bff;--text:#eef4ff;--muted:#97a6bd}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+    body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 15% 20%,rgba(0,229,255,.12),transparent 45%),radial-gradient(ellipse at 85% 75%,rgba(163,107,255,.14),transparent 45%),var(--bg)}
+    body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.15;background-image:linear-gradient(rgba(0,229,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.2) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+    header{display:flex;align-items:center;justify-content:space-between;padding:25px 7%;border-bottom:1px solid rgba(255,255,255,.08)}
+    .logo{font-size:23px;font-weight:800;letter-spacing:3px;color:var(--text);text-decoration:none}.logo span{color:var(--cyan)}.back{color:var(--muted);font-size:13px;text-decoration:none}.back:hover{color:var(--cyan)}
+    main{max-width:1150px;margin:auto;padding:75px 24px 100px}.eyebrow{font:13px monospace;letter-spacing:3px;color:var(--cyan);text-transform:uppercase}
+    h1{font-size:clamp(40px,7vw,76px);letter-spacing:-2px;line-height:1.1;margin:20px 0}h1 span{background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .intro{max-width:850px;color:var(--muted);font-size:18px;line-height:1.8}.tags{display:flex;gap:9px;flex-wrap:wrap;margin:24px 0 34px}.tag{border:1px solid rgba(0,229,255,.22);border-radius:6px;padding:8px 11px;color:#bcd1e6;font:12px monospace}
+    .button{display:inline-block;padding:15px 22px;border:1px solid rgba(0,229,255,.55);border-radius:8px;color:var(--cyan);text-decoration:none;font:14px monospace;transition:background .2s,box-shadow .2s}.button:hover{background:rgba(0,229,255,.1);box-shadow:0 0 22px rgba(0,229,255,.12)}
+    section{margin-top:70px}h2{font-size:29px;margin:0 0 14px}section>p{color:var(--muted);line-height:1.8;max-width:850px}
+    .gallery{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:25px}.photo,.panel{background:rgba(18,26,41,.86);border:1px solid rgba(0,229,255,.18);border-radius:16px;overflow:hidden;position:relative}.photo::before,.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple))}
+    .photo{margin:0;padding:25px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:22px}.photo img{max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:6px;image-rendering:auto}.photo figcaption{align-self:stretch;color:var(--muted);font-size:14px;line-height:1.6}.photo strong{display:block;color:var(--text);margin-bottom:5px}
+    .features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}.panel{padding:25px}.panel h3{margin:0 0 10px;font-size:18px}.panel p{margin:0;color:var(--muted);line-height:1.7;font-size:14px}
+    .code-panel{margin-top:25px;background:#080e19;border:1px solid rgba(0,229,255,.25);border-radius:12px;overflow:hidden}.code-heading{padding:14px 20px;background:rgba(18,26,41,.9);color:var(--cyan);font:12px monospace;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.07)}pre{margin:0;padding:23px;overflow-x:auto;color:#c8e8ff;font:14px/1.75 Consolas,"Courier New",monospace}
+    .note{font-size:14px;color:var(--muted);line-height:1.7}.cta{padding:30px;border:1px solid rgba(163,107,255,.3);border-radius:16px;background:rgba(18,26,41,.85)}.cta p{color:var(--muted);line-height:1.8}footer{padding:30px 7%;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid rgba(255,255,255,.07)}a:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+    @media(max-width:700px){header{padding:22px 6%}.logo{font-size:19px}main{padding:55px 20px 75px}.gallery,.features{grid-template-columns:1fr}.photo{padding:18px}section{margin-top:55px}pre{font-size:12px}}
+  </style>
+</head>
+<body>
+  <header><a class="logo" href="index.html">BITFO<span>GAV</span></a><a class="back" href="projects.html">← Back to Projects</a></header>
+  <main>
+    <div class="eyebrow">// Electronics / PIC Microcontrollers / 2020</div>
+    <h1>I²C LCD <span>Library.</span></h1>
+    <p class="intro">A Swordfish BASIC module I developed to drive HD44780-compatible character LCDs through the PCF8574 I²C I/O expander. The aim was simple: make an I²C-connected LCD feel as straightforward to use as the original Swordfish LCD library, without consuming a collection of PIC I/O pins.</p>
+    <div class="tags"><span class="tag">Swordfish BASIC</span><span class="tag">PIC18F2550</span><span class="tag">PCF8574</span><span class="tag">HD44780 LCD</span><span class="tag">Hardware + Software I²C</span></div>
+    <a class="button" href="https://www.sfcompiler.co.uk/wiki/pmwiki.php?n=SwordfishUser.I2CLCDPCF8574" target="_blank" rel="noopener noreferrer">VIEW ORIGINAL ARTICLE &amp; LIBRARY ↗</a>
+
+    <section aria-labelledby="gallery-title">
+      <h2 id="gallery-title">The Hardware in Action</h2>
+      <p>Two photographs from the original project: the library driving a blue-backlit character display, and the LCD hardware with its I²C interface board.</p>
+      <div class="gallery">
+        <figure class="photo"><img src="images/i2c-lcd/LCD24line.jpg" alt="Blue-backlit LCD displaying Swordfish I2C LCD Library by Bitfogav" loading="lazy"><figcaption><strong>Working LCD display</strong>The library writing text to the display, demonstrating cursor positioning and multi-line output.</figcaption></figure>
+        <figure class="photo"><img src="images/i2c-lcd/i2clcd1.jpg" alt="Front and rear of character LCD module with PCF8574 I2C adapter board" loading="lazy"><figcaption><strong>LCD and I²C adapter</strong>The PCF8574 interface connects the LCD using SDA and SCL, with contrast adjustment and configurable address pads.</figcaption></figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="why-title">
+      <h2 id="why-title">Why I Built It</h2>
+      <p>Parallel character LCDs are useful, but wiring several data and control signals to a microcontroller takes up pins. A PCF8574 adapter lets the LCD communicate over I²C. I built <strong>I2CLCD.bas</strong> to wrap that interface in familiar Swordfish LCD commands, so existing projects could use a similar programming style.</p>
+      <div class="features">
+        <div class="panel"><h3>Hardware or software I²C</h3><p>Select the PIC's hardware I²C peripheral or use configurable software SDA and SCL pins.</p></div>
+        <div class="panel"><h3>2-line and 4-line displays</h3><p>Designed for common HD44780-compatible character LCDs, including two- and four-line layouts.</p></div>
+        <div class="panel"><h3>Familiar LCD commands</h3><p>Write text, position the cursor, clear the screen, shift the display and control the backlight.</p></div>
+        <div class="panel"><h3>Custom characters</h3><p>Support for programmable character patterns, demonstrated with animated bar graphs.</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="code-title">
+      <h2 id="code-title">A Look at the Code</h2>
+      <p>The example below is taken from my original Swordfish Wiki article. It shows how a PIC18F2550 can use software I²C to write text at specific LCD positions.</p>
+      <div class="code-panel"><div class="code-heading">SWORDFISH BASIC / SOFTWARE I²C EXAMPLE</div><pre><code>' Using software I2C to control the I2CLCD display.
+Device = 18F2550
+Clock = 20
+
+// optional configure SDA and SCL if using software I2C...
+#option USE_SI2C = true
+#option I2C_SDA = PORTA.4
+#option I2C_SCL = PORTA.5
+
+// import libraries...
+Include "I2CLCD.bas"
+
+' write string to display at locations...
+I2CLCD.WriteAt(1,2,"Swordfish")
+I2CLCD.WriteAt(2,4,"I2C LCD")
+I2CLCD.WriteAt(3,6,"Library")
+I2CLCD.WriteAt(4,8,"by Bitfogav.")</code></pre></div>
+      <p class="note">The library also includes lower-level routines for sending LCD commands over the PCF8574, configurable I²C addressing, and a bar-graph example using custom LCD characters.</p>
+    </section>
+
+    <section class="cta" aria-labelledby="original-title">
+      <h2 id="original-title">Read the Full Article &amp; Get the Library</h2>
+      <p>This page is a project showcase. For the complete original write-up, configuration instructions, sample programs and the I2CLCD v1.0 library download, visit my Swordfish Compiler Wiki article.</p>
+      <a class="button" href="https://www.sfcompiler.co.uk/wiki/pmwiki.php?n=SwordfishUser.I2CLCDPCF8574" target="_blank" rel="noopener noreferrer">OPEN SWORDFISH WIKI ↗</a>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> Bitfogav.com — Built with curiosity.</footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
