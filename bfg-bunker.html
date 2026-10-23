@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090d16">
+<meta name="description" content="BFG Bunker System — a custom DayZ bunker framework by Bitfogav, featuring access cards, configurable triggers, door controls and server tools.">
+<title>BFG Bunker System | Bitfogav</title>
+<style>
+:root{--bg:#090d16;--panel:#121a29;--cyan:#00e5ff;--purple:#a36bff;--text:#eef4ff;--muted:#97a6bd}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 15% 20%,rgba(0,229,255,.12),transparent 45%),radial-gradient(ellipse at 85% 75%,rgba(163,107,255,.14),transparent 45%),#090d16}body:after{content:"";position:fixed;inset:0;z-index:-1;opacity:.15;background-image:linear-gradient(rgba(0,229,255,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.2) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}header{display:flex;justify-content:space-between;align-items:center;padding:25px 7%;border-bottom:1px solid #ffffff14}.logo{font-size:23px;font-weight:800;letter-spacing:3px;color:var(--text);text-decoration:none}.logo span,.accent{color:var(--cyan)}.back{color:var(--muted);font-size:13px;text-decoration:none}.back:hover{color:var(--cyan)}main{width:100%;max-width:1150px;margin:auto;padding:78px 24px 100px;flex:1}.eyebrow{color:var(--cyan);font:13px monospace;letter-spacing:3px;text-transform:uppercase}h1{font-size:clamp(45px,8vw,82px);letter-spacing:-3px;line-height:1.08;margin:20px 0}h1 span{background:linear-gradient(90deg,var(--cyan),var(--purple));background-clip:text;-webkit-background-clip:text;color:transparent}.intro{max-width:780px;color:var(--muted);font-size:18px;line-height:1.85}.pills{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 45px}.pill{font:12px monospace;color:var(--cyan);border:1px solid #00e5ff3b;border-radius:100px;padding:9px 13px;background:#00e5ff0a}.section-title{margin:65px 0 18px;font-size:29px;letter-spacing:-.5px}.section-desc{color:var(--muted);line-height:1.75;max-width:800px}.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:25px}.card,.snippet,.note{background:rgba(18,26,41,.85);border:1px solid #00e5ff2b;border-radius:15px;padding:25px;position:relative;overflow:hidden}.card:before,.snippet:before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,var(--cyan),var(--purple))}.card h3{font-size:17px;margin:5px 0 12px}.card p{color:var(--muted);font-size:14px;line-height:1.7;margin:0}.num{font:12px monospace;color:var(--cyan);letter-spacing:2px}.snippets{display:grid;gap:18px;margin-top:25px}.snippet-head{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}.snippet h3{margin:0;font-size:18px}.snippet p{color:var(--muted);font-size:14px;line-height:1.7}.source{font:11px monospace;color:var(--purple)}pre{background:#080c15;border:1px solid #ffffff14;border-radius:10px;padding:20px;overflow:auto;margin:18px 0;color:#d3e8f6;font:13px/1.7 Consolas,'Courier New',monospace;tab-size:4}button,.link-button{border:1px solid #00e5ff70;background:transparent;border-radius:8px;color:var(--cyan);padding:11px 17px;font:13px monospace;cursor:pointer;text-decoration:none;display:inline-block}button:hover,.link-button:hover{background:#00e5ff16;box-shadow:0 0 20px #00e5ff16}.note{margin-top:25px;color:var(--muted);font-size:14px;line-height:1.8}.note strong{color:var(--text)}.links{display:flex;gap:12px;flex-wrap:wrap;margin-top:35px}footer{padding:30px 7%;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid #ffffff12}a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}@media(max-width:800px){.features{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:55px 20px 75px}}@media(max-width:560px){header{padding:22px 6%}.logo{font-size:19px}.features{grid-template-columns:1fr}.card,.snippet{padding:20px}h1{letter-spacing:-2px}.intro{font-size:16px}pre{font-size:12px;padding:13px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* BFG development screenshot gallery */
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:26px}
+.shot{margin:0;background:rgba(18,26,41,.85);border:1px solid #00e5ff2b;border-radius:15px;overflow:hidden}
+.shot a{display:block;overflow:hidden;background:#080c15}
+.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .25s ease}
+.shot a:hover img{transform:scale(1.025)}
+.shot figcaption{padding:18px 20px 22px}
+.shot strong{display:block;color:var(--text);margin-bottom:7px;font-size:16px}
+.shot span{display:block;color:var(--muted);font-size:13px;line-height:1.7}
+.shot small{display:block;color:var(--cyan);font:11px monospace;margin-top:12px}
+@media(max-width:650px){.gallery{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.shot img{transition:none}}
+</style>
+</head>
+<body>
+<header><a class="logo" href="index.html">BITFO<span>GAV</span></a><a class="back" href="projects.html">← Back to Projects</a></header>
+<main>
+<div class="eyebrow">// DayZ development / featured project</div>
+<h1>BFG <span>Bunker System.</span></h1>
+<p class="intro">A modular bunker framework for DayZ, developed around configurable access control, custom triggers, door management, loot and server-side administration. Built to extend underground gameplay while keeping important decisions on the server.</p>
+<div class="pills"><span class="pill">ENFORCE SCRIPT</span><span class="pill">DAYZ MODDING</span><span class="pill">CLIENT + SERVER</span><span class="pill">JSON CONFIGURATION</span></div>
+<h2 class="section-title">What it does<span class="accent">.</span></h2>
+<p class="section-desc">The system is split into focused components, allowing bunker behaviour to be configured and managed without treating every entrance, door and trigger as the same object.</p>
+<section class="features" aria-label="Bunker features">
+<div class="card"><div class="num">01 / BAC</div><h3>Keycard access</h3><p>Configurable card classes, panel mappings and access checks for bunker entrances.</p></div>
+<div class="card"><div class="num">02 / STS</div><h3>Smart triggers</h3><p>Box-based trigger volumes, including rotated shapes and teleport-related behaviour.</p></div>
+<div class="card"><div class="num">03 / DOORS</div><h3>Door control</h3><p>Dedicated door configuration, control logic, admin locking and helper tools.</p></div>
+<div class="card"><div class="num">04 / CONTROL</div><h3>Bunker lifecycle</h3><p>Tracks bunker state, participants, resets and reconnect-related behaviour.</p></div>
+<div class="card"><div class="num">05 / LOOT</div><h3>Loot management</h3><p>Configurable loot handling integrated with the bunker runtime.</p></div>
+<div class="card"><div class="num">06 / TOOLS</div><h3>Admin and diagnostics</h3><p>Placement helpers, debug utilities, configuration management and server logging.</p></div>
+</section>
+<h2 class="section-title">Development tools &amp; visualisation<span class="accent">.</span></h2>
+<p class="section-desc">A look at the building blocks behind the system: interactive shape placement, visual trigger boundaries, underground zone layouts and the bunker entrance itself. Click an image to view it at full size.</p>
+<section class="gallery" aria-label="Bunker development screenshots">
+<figure class="shot"><a href="images/bfg-bunker/sts-helper.webp" target="_blank" rel="noopener" aria-label="View full size: STS Shape Placement Helper"><img src="images/bfg-bunker/sts-helper.webp" alt="STS Shape Placement Helper" loading="lazy"></a><figcaption><strong>STS Shape Placement Helper</strong><span>In-game controls for creating and positioning box, sphere and cylinder trigger volumes.</span><small>VIEW FULL IMAGE ↗</small></figcaption></figure>
+<figure class="shot"><a href="images/bfg-bunker/trigger-zones.webp" target="_blank" rel="noopener" aria-label="View full size: Trigger Zone Boundaries"><img src="images/bfg-bunker/trigger-zones.webp" alt="Trigger Zone Boundaries" loading="lazy"></a><figcaption><strong>Trigger Zone Boundaries</strong><span>A visual preview of a configured trigger area around a structure.</span><small>VIEW FULL IMAGE ↗</small></figcaption></figure>
+<figure class="shot"><a href="images/bfg-bunker/bunker-triggers.webp" target="_blank" rel="noopener" aria-label="View full size: Underground Trigger Layout"><img src="images/bfg-bunker/bunker-triggers.webp" alt="Underground Trigger Layout" loading="lazy"></a><figcaption><strong>Underground Trigger Layout</strong><span>Colour-coded trigger volumes placed across a bunker environment.</span><small>VIEW FULL IMAGE ↗</small></figcaption></figure>
+<figure class="shot"><a href="images/bfg-bunker/bunker-door.webp" target="_blank" rel="noopener" aria-label="View full size: Bunker Access Door"><img src="images/bfg-bunker/bunker-door.webp" alt="Bunker Access Door" loading="lazy"></a><figcaption><strong>Bunker Access Door</strong><span>The physical bunker entrance and door used alongside the access-control system.</span><small>VIEW FULL IMAGE ↗</small></figcaption></figure>
+<figure class="shot"><a href="images/bfg-bunker/vpp-admin-panel.webp" target="_blank" rel="noopener" aria-label="View full size: VPP Admin Integration"><img src="images/bfg-bunker/vpp-admin-panel.webp" alt="BFG Bunker administration panel integrated into VPP Admin Tools" loading="lazy"></a><figcaption><strong>VPP Admin Integration</strong><span>In-game bunker management with participant tracking, admin locking, reset, loot controls and body-bag searching.</span><small>VIEW FULL IMAGE ↗</small></figcaption></figure>
+</section>
+<h2 class="section-title">Inside the code<span class="accent">.</span></h2>
+<p class="section-desc">A few small excerpts from the project source. These show implementation techniques without publishing the full bunker logic, private configuration or complete mod.</p>
+<section class="snippets" aria-label="Code snippets">
+<article class="snippet"><div class="snippet-head"><h3>Box trigger centre</h3><span class="source">STS_ZoneMath.c</span></div><p>Converts a ground-level box position into the centre used for trigger calculations.</p><pre><code>// get centered box position from ground/base position
+static vector GetBoxCenterFromBase(vector basePos, vector size)
+{
+    vector center = basePos;
+    center[1] = center[1] + (size[1] * 0.5);
+    return center;
+}</code></pre><button type="button" class="copy">Copy Code</button></article>
+<article class="snippet"><div class="snippet-head"><h3>Axis-aligned trigger check</h3><span class="source">STS_ZoneMath.c</span></div><p>Checks whether a world position falls inside a configured box volume.</p><pre><code>// axis-aligned box check
+static bool IsInsideBox(vector point, vector basePos, vector size)
+{
+    vector center = GetBoxCenterFromBase(basePos, size);
+    vector delta = point - center;
+
+    vector half = size * 0.5;
+
+    return (Math.AbsFloat(delta[0]) &lt;= half[0] &amp;&amp; Math.AbsFloat(delta[1]) &lt;= half[1] &amp;&amp; Math.AbsFloat(delta[2]) &lt;= half[2]);
+}</code></pre><button type="button" class="copy">Copy Code</button></article>
+<article class="snippet"><div class="snippet-head"><h3>Server logging levels</h3><span class="source">BFG_BunkerLogger.c</span></div><p>Routes diagnostic messages through the bunker logger according to the configured logging level.</p><pre><code>static void Warning(string module, string message)
+{
+    if (s_LogLevel &gt;= 2)
+    {
+        Log(module, message, "WARNING");
+        Print("[BFG_Bunker] [" + module + "] WARNING: " + message);
+    }
+}</code></pre><button type="button" class="copy">Copy Code</button></article>
+</section>
+<div class="note"><strong>About these snippets:</strong> The excerpts are taken from the project's utility and logging files. They are not standalone mods; they depend on their surrounding classes and project context. The complete source and server configuration are not published here.</div>
+<div class="links"><a class="link-button" href="projects.html">← All Projects</a><a class="link-button" href="coding.html">Explore Code Library →</a></div>
+</main>
+<footer>© <span id="year"></span> Bitfogav.com — Built with curiosity.</footer>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+document.querySelectorAll('.snippet .copy').forEach(function(button){button.addEventListener('click',async function(){var code=button.parentElement.querySelector('code').textContent;try{await navigator.clipboard.writeText(code);button.textContent='Copied!';setTimeout(function(){button.textContent='Copy Code';},1600);}catch(e){button.textContent='Select code to copy';}});});
+</script>
+</body>
+</html>
