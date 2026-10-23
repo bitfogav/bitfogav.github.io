@@ -1,19 +1,344 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitfogav Game List</title>
-</head>
-<body>
-    
-    <h1>List of Games</h1>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="Play browser games on Bitfogav.com">
+  <title>Games | Bitfogav</title>
 
-    <ul>
-      <li><a href="game1.html">Noughts and Crosses</a></li>
-      <li><a href="game2.html">Matching Card Game</a></li>
-    </ul>
-    
+  <style>
+    :root {
+      --bg: #090d16;
+      --panel: #121a29;
+      --cyan: #00e5ff;
+      --purple: #a36bff;
+      --text: #eef4ff;
+      --muted: #97a6bd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at 15% 20%,
+          rgba(0,229,255,0.12), transparent 45%),
+        radial-gradient(ellipse at 85% 75%,
+          rgba(163,107,255,0.14), transparent 45%),
+        #090d16;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.15;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.2) 1px,
+          transparent 1px),
+        linear-gradient(90deg,
+          rgba(0,229,255,0.2) 1px,
+          transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(
+        to bottom, transparent, black 70%);
+      pointer-events: none;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 7%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    .back {
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .back:hover {
+      color: var(--cyan);
+    }
+
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 100px 24px 100px;
+      min-height: calc(100vh - 165px);
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 80px);
+      letter-spacing: -3px;
+      margin: 20px 0;
+    }
+
+    h1 span {
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+      max-width: 650px;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-top: 65px;
+    }
+
+    .game-card {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      min-height: 260px;
+      padding: 32px;
+      background: rgba(18,26,41,0.85);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text);
+      overflow: hidden;
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0,229,255,0.45);
+      box-shadow: 0 15px 45px rgba(0,229,255,0.09);
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
+    }
+
+    .game-card:focus-visible,
+    .back:focus-visible,
+    .logo:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .game-number {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .game-card h2 {
+      margin: 35px 0 12px;
+      font-size: 27px;
+    }
+
+    .game-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .play {
+      margin-top: auto;
+      padding-top: 25px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+      align-self: flex-end;
+    }
+
+    footer {
+      padding: 30px 7%;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .hero {
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .games-grid {
+      animation: fadeUp 0.9s ease 0.2s both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 22px 6%;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      main {
+        padding: 75px 22px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .games-grid {
+        grid-template-columns: 1fr;
+        margin-top: 45px;
+      }
+
+      .game-card {
+        min-height: 230px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      BITFO<span>GAV</span>
+    </a>
+
+    <a href="index.html" class="back">
+      ← Back to Home
+    </a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">// Interactive experiences</div>
+
+      <h1>
+        Game <span>Library.</span>
+      </h1>
+
+      <p class="intro">
+        A collection of browser games I've built.
+        Pick a game below and start playing.
+      </p>
+    </section>
+
+    <nav class="games-grid" aria-label="Available games">
+
+      <a href="game1.html" class="game-card">
+        <span class="game-number">01 / CLASSIC</span>
+        <h2>Noughts and Crosses</h2>
+        <p>
+          The classic X versus O challenge.
+          Test your strategy and try to win.
+        </p>
+        <span class="play">PLAY GAME ↗</span>
+      </a>
+
+      <a href="game2.html" class="game-card">
+        <span class="game-number">02 / MEMORY</span>
+        <h2>Matching Card Game</h2>
+        <p>
+          Flip the cards, find matching pairs
+          and test your memory.
+        </p>
+        <span class="play">PLAY GAME ↗</span>
+      </a>
+
+    </nav>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Bitfogav.com
+    — Built with curiosity.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
 </body>
 </html>
