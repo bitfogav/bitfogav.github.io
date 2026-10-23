@@ -1,83 +1,365 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bitfogav.com</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d16">
+  <meta name="description" content="Bitfogav — coding, projects and browser games.">
+  <title>Bitfogav | Games, Coding & Projects</title>
+
   <style>
-    body, html {
-      height: 100%;
+    :root {
+      --bg: #090d16;
+      --panel: #121a29;
+      --cyan: #00e5ff;
+      --purple: #a36bff;
+      --text: #eef4ff;
+      --muted: #97a6bd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Background effects */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at 15% 20%,
+          rgba(0, 229, 255, 0.12), transparent 45%),
+        radial-gradient(ellipse at 85% 75%,
+          rgba(163, 107, 255, 0.14), transparent 45%),
+        #090d16;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.15;
+      background-image:
+        linear-gradient(rgba(0, 229, 255, 0.2) 1px,
+          transparent 1px),
+        linear-gradient(90deg,
+          rgba(0, 229, 255, 0.2) 1px,
+          transparent 1px);
+      background-size: 60px 60px;
+      mask-image: linear-gradient(
+        to bottom, transparent, black 70%);
+      pointer-events: none;
+    }
+
+    /* Navigation */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 7%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    /* Main content */
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 110px 24px 80px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 92px);
+      line-height: 1.1;
+      letter-spacing: -3px;
+      margin: 22px 0;
+    }
+
+    h1 span {
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+      max-width: 620px;
+    }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 75px;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 245px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      background: rgba(18,26,41,0.85);
+      text-decoration: none;
+      color: var(--text);
+      overflow: hidden;
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg, var(--cyan), var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0,229,255,0.45);
+      box-shadow: 0 15px 45px rgba(0,229,255,0.09);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .card-number {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .card h2 {
+      margin: 30px 0 10px;
+      font-size: 26px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
       margin: 0;
     }
 
-    .bg {
-      background-image: url("codebacking.jpg");
-      height: 100%; 
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    .arrow {
+      margin-top: auto;
+      padding-top: 20px;
+      color: var(--cyan);
+      font-size: 24px;
+      align-self: flex-end;
     }
 
-    div.a {
+    /* Footer */
+    footer {
+      padding: 30px 7%;
       text-align: center;
-      font-size: 40px;
-      background: #ccc;
-      font-family: "Lucida Console";
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid rgba(255,255,255,0.07);
     }
 
-    div.b {
-      text-align: center;
-      font-size: 25px;
-      background: #ccc;
-      font-family: "Lucida Console";
+    /* Entrance animation */
+    .hero {
+      animation: fadeUp 0.8s ease both;
     }
 
-    a:link, a:visited {
-      background-color: #f44336;
-      color: white;
-      padding: 15px 25px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
+    .cards {
+      animation: fadeUp 0.9s ease 0.2s both;
     }
 
-    a:hover, a:active {
-      background-color: green;
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .games {
-      margin-top: 160px;
-      margin-left: 160px;
-    }
-
-    /* Adjustments for mobile devices */
-    @media only screen and (max-width: 768px) {
-      div.a {
-        font-size: 30px;
+    /* Mobile */
+    @media (max-width: 768px) {
+      header {
+        padding: 22px 6%;
       }
 
-      div.b {
-        font-size: 20px;
+      .logo {
+        font-size: 19px;
       }
 
-      .games {
-        margin: 20px;
+      main {
+        padding: 75px 22px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+        margin-top: 45px;
+      }
+
+      .card {
+        min-height: 205px;
+      }
+
+      .status {
+        font-size: 11px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
       }
     }
   </style>
 </head>
+
 <body>
-  <div class="a">
-    Welcome to Bitfogav.com</br>
-  </div>
 
-  <div class="b">
-    Here I share code, my projects and my HTML games.
-  </div>
+  <header>
+    <div class="logo">BITFO<span>GAV</span></div>
 
-  <div class="bg">
-    <a class="games" href="gameList.html">Games</a>
-    <a class="coding" href="coding.html">Coding</a>
-    <a class="projects" href="projects.html">Projects</a>
-  </div>
+    <div class="status">
+      <span class="status-dot"></span>
+      Games / Code / Projects
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">// Welcome to my digital space</div>
+
+      <h1>
+        Build. Play.<br>
+        <span>Explore.</span>
+      </h1>
+
+      <p class="intro">
+        Welcome to Bitfogav.com — my corner of the web
+        where I share coding experiments, personal projects
+        and browser games.
+      </p>
+    </section>
+
+    <nav class="cards" aria-label="Explore Bitfogav">
+
+      <a href="gameList.html" class="card">
+        <span class="card-number">01 / ENTER</span>
+        <h2>Games</h2>
+        <p>
+          Explore browser games, experiments and
+          interactive challenges.
+        </p>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a href="coding.html" class="card">
+        <span class="card-number">02 / DEVELOP</span>
+        <h2>Coding</h2>
+        <p>
+          Code, development experiments and
+          things I've learned along the way.
+        </p>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a href="projects.html" class="card">
+        <span class="card-number">03 / DISCOVER</span>
+        <h2>Projects</h2>
+        <p>
+          Personal creations, ongoing work
+          and ideas brought to life.
+        </p>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+
+    </nav>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Bitfogav.com
+    — Built with curiosity.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
 </body>
 </html>
